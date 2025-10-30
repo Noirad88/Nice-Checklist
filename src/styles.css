@@ -1,0 +1,120 @@
+@font-face{
+    font-family: 'Cotham Sans';
+    src: url(./CothamSans.otf) format('opentype');
+}
+
+:root{
+    --s-border-radius: 8px;
+    --color-primary: rgb(70, 70, 236);
+    font-family: 'Cotham Sans', sans-serif;
+}
+
+input, button, a{
+    font-family: 'Cotham Sans', sans-serif;
+    outline: 0;
+    border: 0;
+}
+
+body{
+    background: rgb(219, 219, 219);
+    padding: 24px 0;
+}
+
+button.note-button{
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    color:rgb(255, 255, 255);
+    background: var(--color-primary);
+    border: 2px solid var(--color-primary);
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: .85rem;
+    max-height: 42px;
+    word-break: keep-all;
+}
+
+button:hover{
+    border: 2px solid rgb(255, 255, 255);
+}
+
+button#nav-add-note.note-button:before{
+    content: '+';
+    padding-right: 8px;
+}
+
+button.note-button.note-delete:before{
+    content: 'x';
+    padding-right: 8px;
+}
+
+header{
+    width: 768px;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+
+header nav{
+    flex-shrink: 0;
+}
+
+header h1{
+    flex-grow: 1;
+}
+
+main#landing{
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+section#notes-container{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 768px;
+}
+
+section#notes-container > div.note-item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--s-border-radius);
+    background: white;
+    padding: 0 var(--s-border-radius);
+    border-radius: var(--s-border-radius);
+    min-height: 42px;
+
+}
+
+div.note-item{
+    border: 2px solid white;
+    font-size: 1.25rem;
+}
+
+div.note-item input[class='note-text']{
+    flex-grow: 1;
+    font-size: 1.25rem;
+}
+
+div.note-item button.note-delete{
+    background:var(--color-primary);
+    color: white;
+    flex-shrink: 0;
+    opacity: 0;
+}
+
+div.note-item:hover button.note-delete{
+    opacity: 1;
+}
+
+div.note-item[class~='archived']{
+    opacity: .5;
+}
+
+.spacer.sm{
+    height: 16px;
+}
