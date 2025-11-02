@@ -100,6 +100,10 @@ div.note-item input[class='note-text']{
     font-size: 1.25rem;
 }
 
+div.note-item[class~='is-done'] input[class='note-text'] {
+    text-decoration: line-through;
+}
+
 div.note-item button.note-delete{
     background:var(--color-primary);
     color: white;
@@ -111,7 +115,7 @@ div.note-item:hover button.note-delete{
     opacity: 1;
 }
 
-div.note-item[class~='archived']{
+div.note-item[class~='is-archived']{
     opacity: .5;
 }
 

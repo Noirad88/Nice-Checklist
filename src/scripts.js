@@ -6,13 +6,15 @@ let v4
         v4 = module.default;
 
         class Note{
-            id = null
-            text = ""
-            done = false
-            archived = false
+            constructor(){
+                this.id = 'note-' + v4()
+                this.text = ""
+                this.done = false
+                this.archived = false
+            }
 
             handleOnDelete(){
-                this.archived = true
+                this.archived = !this.archived
             }
 
             handleOnDone(e){
@@ -25,10 +27,10 @@ let v4
 
             getHTML(){
                 return `
-                        <div id=${this.id} class='note-item ${this.archived && 'archived'}'>
+                        <div id=${this.id} class='note-item ${this.archived == true ? 'is-archived' : ''} ${this.done == true ? 'is-done' : ''}'>
                             <input title='done' name='done' type='checkbox' value='done' class='note-done' ${this.done && 'checked'}/>
                             <input title='note text' name='note text' class='note-text' type='text' value='${this.text}'>
-                            <button title='delete note' name='delete note' class='note-button note-delete'>Delete</button>
+                            <button title='delete note' name='delete note' class='note-button note-delete'>${this.archived ? 'Un-hide' : 'Hide'}</button>
                         </div>
                     `
             }
@@ -40,12 +42,11 @@ let v4
             constructor(){
                 this._notes = []
                 this.notesContainer = document.querySelector('#notes-container')
+                this.showArchived = false
             }
 
             addNote(){
-                const noteId = 'note-' + v4()
                 const newNote = new Note
-                newNote.id = noteId
                 this._notes.push(newNote)
                 this.render()
             }
@@ -55,7 +56,9 @@ let v4
                 this.notesContainer = document.querySelector('#notes-container')
                 this.notesContainer.innerHTML = ''
 
-                const activeNotes = this._notes.filter((note) => note.archived != true)
+                const activeNotes = this._notes.filter((note) => {
+                    return (this.showArchived == true) || (this.showArchived == false && note.archived == false)
+                })
 
                 activeNotes.map((note)=>{
 
@@ -66,6 +69,8 @@ let v4
                     const noteCheck = this.notesContainer.querySelector(`#${note.id} input.note-done`)
                     noteCheck.addEventListener('change',(e)=>{
                         note.handleOnDone(e)
+                        this.render()
+
                     })
 
                     const noteClose = this.notesContainer.querySelector(`#${note.id} button.note-delete`)
@@ -91,6 +96,12 @@ let v4
 
         document.addEventListener('DOMContentLoaded',()=>{
             noteList.addNote()
+        })
+
+        document.querySelector('#nav-show-complete').addEventListener('change',(e)=>{
+            const showCompleteState = e.target.checked
+            noteList.showArchived = showCompleteState
+            noteList.render()
         })
     }
     catch(e){
